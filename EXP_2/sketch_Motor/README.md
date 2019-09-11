@@ -8,7 +8,7 @@
 
 使用方式基本为：
 
-```c
+```cpp
 #include <Servo.h>
 Servo myservo;		//新建一个对象
 myservo.attach(pin);

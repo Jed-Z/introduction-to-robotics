@@ -24,7 +24,7 @@
 
 * 操作基本为读写
 
-  ```c
+  ```cpp
   #include <EEPROM.h>
   EEPROM.write(addr, val);
   EEPROM.read(addr, val);
