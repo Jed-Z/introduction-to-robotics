@@ -1,9 +1,3 @@
-/*
- * @Author: Jed Zhang 
- * @Date: 2019-09-06 19:10:48 
- * @Last Modified by: Jed Zhang
- * @Last Modified time: 2019-09-06 19:12:00
- */
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
 }
