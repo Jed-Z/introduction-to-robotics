@@ -6,7 +6,7 @@
 
 * 串口和 IO 口一样,需要初始化,参数为波特率 `Serial.begin(9600)`
 
-* 然后串口从板子上发送数据为` Serial.print(msg)`
+* 然后串口从板子上发送数据为 `Serial.print(msg)`
 
 * 或发送后再发一个回车的 `Serial.println(msg)`
 
