@@ -1,9 +1,9 @@
-#define TRIG_PIN 2
-#define ECHO_PIN 3
+#define TRIG_PIN 8
+#define ECHO_PIN 9
 const int SOUND_SPEED = 340;  // sound speed in m/s
 
-float interval;  // time interval in microseconds
-float distance;  // distance in centimeters
+unsigned long interval;  // time interval in microseconds
+unsigned long distance;  // distance in centimeters
 
 void setup() {
     Serial.begin(9600);
