@@ -1,5 +1,5 @@
-#define TRIG_PIN 8
-#define ECHO_PIN 9
+#define TRIG_PIN A1
+#define ECHO_PIN A2
 const int SOUND_SPEED = 340;  // sound speed in m/s
 
 unsigned long interval;  // time interval in microseconds
