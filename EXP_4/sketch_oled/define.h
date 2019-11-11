@@ -7,11 +7,7 @@
 
 // SERVO pin
 #define SERVO 9
-//Encoder
-#define ENCODER_L 8 
-#define DIRECTION_L 4
-#define ENCODER_R 7
-#define DIRECTION_R 2
+
 // Motor
 #define Ldirection 11
 #define Lspeed 5
