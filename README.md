@@ -2,7 +2,7 @@
 
 * 中山大学（SYSU）
 * 数据科学与计算机学院（SDCS）
-* 机器人导论
+* 机器人导论（Introduction to Robotics, DCS361）
 * 课程教师：万海
 * 2019 秋季学期（Fall 2019）
 
