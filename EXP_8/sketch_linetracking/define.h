@@ -1,13 +1,6 @@
 #ifndef _DEFINE_H_
 #define _DEFINE_H_
 
-// OLED
-#include <SSD1306.h>
-#define OLED_DC 10
-#define OLED_CLK 19
-#define OLED_MOSI 13
-#define OLED_RESET 12
-
 // Encoder
 #define ENCODER_L 8 
 #define DIRECTION_L 4

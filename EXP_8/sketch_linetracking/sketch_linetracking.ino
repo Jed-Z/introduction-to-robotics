@@ -1,6 +1,5 @@
 #include <Servo.h>
 #include "define.h"
-#include "sensor.h"
 
 #define BLACK LOW
 #define WHITE HIGH
@@ -9,26 +8,28 @@
 Servo myservo;
 
 int left_direction, right_direction;
-int left_speed, right_speed;  // 真实转速，不用考虑方向
 int servo_degree;
 
-/* 同时改变两个车轮的转速，参数为期望的真实转速 */
-void setSpeed(int speed, int turn) {
-    int left_velocity = left_direction==LOW ? speed : 255-speed;
-    int right_velocity = right_direction==LOW ? speed : 255-speed;
+void setSpeed(int right, int left) {
+    // 左轮
+    if(left<=0) {
+        digitalWrite(LDIRECTION_PIN, LOW);
+        analogWrite(LSPEED_PIN, -left);
+    }
+    else {
+        digitalWrite(LDIRECTION_PIN, HIGH);
+        analogWrite(LSPEED_PIN, -left);
+    }
 
-    if(turn==-1){
-        left_velocity -= 90;
+    // 右轮
+    if(right<=0) {
+        digitalWrite(RDIRECTION_PIN, LOW);
+        analogWrite(RSPEED_PIN, -right);
     }
-    else if(turn==1){
-        right_velocity -= 90;
+    else {
+        digitalWrite(RDIRECTION_PIN, HIGH);
+        analogWrite(RSPEED_PIN, -right);
     }
-    analogWrite(LSPEED_PIN, left_velocity);
-    analogWrite(RSPEED_PIN, right_velocity);
-    
-    // 更新状态
-    left_speed = speed;
-    right_speed = speed;
 }
 
 
@@ -45,77 +46,77 @@ void setDirection(int direction) {
 
 /* 改变舵机角度 */
 void setServo(int degree) {
-//    myservo.write(degree);
+    myservo.write(degree);
 }
 
 
+int privious = 0;  // 记录原来的运动方向：左、中、右分别表示为-1、0、1
+int speed_norm = 200;
+int speed_fast = 150, speed_slow = -150;
+int servo_left = 120, servo_right = 60;
+
 void setup() {
-    pinMode(A0, INPUT);  // 初始化电压口
+    // 初始化三个巡线传感器
     pinMode(10, INPUT);
     pinMode(12, INPUT);
     pinMode(13, INPUT);
-    
+
     // 初始化电机
     pinMode(LDIRECTION_PIN, OUTPUT);
     pinMode(RDIRECTION_PIN, OUTPUT);
     pinMode(LSPEED_PIN, OUTPUT);
     pinMode(RSPEED_PIN, OUTPUT);
     
-    setDirection(HIGH);
-    setSpeed(70, 0);
-    
     // 初始化舵机
     myservo.attach(SERVO_PIN);
     setServo(94);
     myservo.write(94);
 
-    Serial.begin(9600);
+    // 设定初始运动模式
+    setDirection(HIGH);  // 倒车
+    setSpeed(speed_norm, speed_norm);     // 初始速度
 }
 
-int privious = 0;
+
 void loop() {
-    //delay(200);
     int L = digitalRead(13);
     int M = digitalRead(12);
     int R = digitalRead(10);
     
     if(L==WHITE && M==BLACK && R==WHITE) {  // 直走
         setServo(94);
-        setSpeed(45, 0);
+        setSpeed(speed_norm, speed_norm);
     }
     else if(L==WHITE && M==WHITE && R==BLACK) {  // 右转
         privious = 1;
-//        setSpeed(0);
-        //delay(500);
-        setServo(30);
-        //delay(500);
-        setSpeed(45, 1);
+        setServo(servo_right);
+        setSpeed(speed_fast, speed_slow);
     }
     else if(L==BLACK && M==WHITE && R==WHITE) {  // 左转
         privious = -1;
-//        setSpeed(0);
-        //delay(500);
-        setServo(180);
-        //delay(500);
-        setSpeed(45, -1);
+        setServo(servo_left);
+        setSpeed(speed_slow, speed_fast);
     }
-    else if(L==WHITE && M==WHITE && R==WHITE) {  //
+    else if(L==WHITE && M==WHITE && R==WHITE) {  // 偏离轨道后修正
         if(privious<=0) {
-            setServo(180);  // 向左回轨道
+            setServo(servo_left);
+            setSpeed(speed_slow, speed_fast);
         }
         else {
-            setServo(30);  // 向右回轨道
+            setServo(servo_right);
+            setSpeed(speed_fast, speed_slow);
         }
     }
     else if(L==BLACK && M==BLACK && R==BLACK) {  // 反向
         if(privious>0) {
-            setServo(180);  // 向左回轨道
+            setServo(servo_left);  // 向左回轨道
         }
         else {
-            setServo(30);  // 向右回轨道
+            setServo(servo_right);  // 向右回轨道
         }
     }
     else{
-        setSpeed(45, 0);
+        setServo(94);
+        setSpeed(speed_norm, speed_norm);
     }
 }
