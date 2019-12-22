@@ -10,25 +10,25 @@ Servo myservo;
 int left_direction, right_direction;
 int servo_degree;
 
-void setSpeed(int right, int left) {
+void setSpeed(int left, int right) {
     // 左轮
     if(left<=0) {
-        digitalWrite(LDIRECTION_PIN, LOW);
-        analogWrite(LSPEED_PIN, -right);
-    }
-    else {
-        digitalWrite(LDIRECTION_PIN, HIGH);
-        analogWrite(LSPEED_PIN, 255-right);
-    }
-
-    // 右轮
-    if(right<=0) {
         digitalWrite(RDIRECTION_PIN, LOW);
         analogWrite(RSPEED_PIN, -left);
     }
     else {
         digitalWrite(RDIRECTION_PIN, HIGH);
         analogWrite(RSPEED_PIN, 255-left);
+    }
+
+    // 右轮
+    if(right<=0) {
+        digitalWrite(LDIRECTION_PIN, LOW);
+        analogWrite(LSPEED_PIN, -right);
+    }
+    else {
+        digitalWrite(LDIRECTION_PIN, HIGH);
+        analogWrite(LSPEED_PIN, 255-right);
     }
 }
 
@@ -51,8 +51,8 @@ void setServo(int degree) {
 
 
 int privious = 0;  // 记录原来的运动方向：左、中、右分别表示为-1、0、1
-int speed_norm = 200;
-int speed_fast = 150, speed_slow = -150;
+int speed_norm = 75;
+int speed_fast = 100, speed_slow = -100;
 int servo_left = 120, servo_right = 60;
 
 void setup() {
@@ -70,7 +70,7 @@ void setup() {
 
     // 设定初始运动模式
     setSpeed(speed_norm, speed_norm);     // 初始速度
-    
+
     Serial.begin(9600);
 //    Serial.println("[+] Setup done!");
      Serial.setTimeout(10);
@@ -86,6 +86,8 @@ void loop() {
     int L = readstr[0] - '0';
     int M = readstr[1] - '0';
     int R = readstr[2] - '0';
+    int speed_fast=readstr[3]-'0'*10;
+    int speed_slow=readstr[4]-'0'*10;
     
     if(L==WHITE && M==BLACK && R==WHITE) {  // 直走
         setServo(94);
