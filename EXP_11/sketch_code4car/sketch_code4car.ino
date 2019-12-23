@@ -141,12 +141,11 @@ void loop() {
     oledShow(5, 0, right_speed);
     oledShow(5, 35, left_speed);
 
-    // e.g. "94,120,75\n"  
-    int com_pos = input_str.indexOf(',');  // e.g. 2
-    int next_servo_degree = input_str.substring(0, com_pos).toInt();  // e.g. 94
+    int com_pos = input_str.indexOf(',');
+    int next_servo_degree = input_str.substring(0, com_pos).toInt();
     String temp_str = input_str.substring(com_pos+1);
     
-    com_pos = temp_str.indexOf(',');  // e.g. 3
+    com_pos = temp_str.indexOf(',');
     int next_left_speed = temp_str.substring(0, com_pos).toInt();
     temp_str = temp_str.substring(com_pos+1);
 
