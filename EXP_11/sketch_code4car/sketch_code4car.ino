@@ -141,6 +141,11 @@ void loop() {
     oledShow(5, 0, right_speed);
     oledShow(5, 35, left_speed);
 
+    int start_pos = input_str.indexOf('S');
+    int end_pos = input_str.indexOf('E');
+    input_str = input_str.substring(start_pos+1, end_pos);
+    Serial.println(input_str);
+
     int com_pos = input_str.indexOf(',');
     int next_servo_degree = input_str.substring(0, com_pos).toInt();
     String temp_str = input_str.substring(com_pos+1);
