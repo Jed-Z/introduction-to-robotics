@@ -20,7 +20,7 @@ void setup() {
 
 
 void loop() {
-    if (Serial.available() > 0) {
+    while (Serial.available() > 0) {
         read_int = Serial.parseInt();
         if(read_int >= 0 && read_int <= 10) {
             brightness = read_int;
