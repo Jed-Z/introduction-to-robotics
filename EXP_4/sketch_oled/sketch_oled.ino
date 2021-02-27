@@ -1,5 +1,5 @@
-#include "define.h"
 #include <Servo.h>
+#include "define.h"
 
 SSD1306 oled(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, 0);
 int read_int;
@@ -15,11 +15,10 @@ int left_speed = 96;
 int right_speed = 96;
 int servo_degree = 94;
 
-void setup()
-{
-    pinMode(A0, INPUT);    
+void setup() {
+    pinMode(A0, INPUT);
     oled.ssd1306_init(SSD1306_SWITCHCAPVCC);
-    oled.clear(); // clears the screen and buffer
+    oled.clear();  // clears the screen and buffer
 
     // init motor and servo
     pinMode(LEFT_EN, OUTPUT);
@@ -36,7 +35,7 @@ void setup()
 }
 
 void loop() {
-    oled.clear(); // clears the screen and buffer
+    oled.clear();  // clears the screen and buffer
     oled.clear();
     read_int = analogRead(A0);
     voltage = read_int * 5.371 / 100.0;
@@ -52,13 +51,12 @@ void loop() {
     oled.drawstring(0, 5, (char*)(String("Servo degree: ") + String(servo_degree)).c_str());
 
     // if battery is low, give warning
-    if(voltage < 7.4) {
+    if (voltage < 7.4) {
         oled.drawstring(0, 1, (char*)"Low battery!");
         left_speed = 0;
         right_speed = 0;
         myservo.detach();
-    }
-    else {
+    } else {
         left_speed = 96;
         right_speed = 96;
     }
@@ -66,6 +64,6 @@ void loop() {
     // refresh motor and display
     analogWrite(LEFT_SPDCTR, left_speed);
     analogWrite(RIGHT_SPDCTR, right_speed);
-    oled.display();     //display the buffer
+    oled.display();  // display the buffer
     delay(1000);
 }
