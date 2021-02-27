@@ -1,5 +1,5 @@
-#define TRIG_PIN A1
-#define ECHO_PIN A2
+#define TRIG_PIN 8
+#define ECHO_PIN 9
 const int SOUND_SPEED = 340;  // sound speed in m/s
 
 unsigned long interval;  // time interval in microseconds
@@ -25,9 +25,9 @@ void loop() {
 
     /* feedback */
     Serial.print("Interval = ");
-    Serial.print(interval);//串口输出等待时间的原始数据
+    Serial.print(interval);  //串口输出等待时间的原始数据
     Serial.print("; Distance = ");
-    Serial.print(distance);//串口输出距离换算成cm的结果
+    Serial.print(distance);  //串口输出距离换算成cm的结果
     Serial.println("cm");
 
     delay(500);
